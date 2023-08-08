@@ -3,11 +3,11 @@ import pigpio
 import mh_z19
 from datetime import datetime
 
-from models.measurement import Measurement, MeasurementType
+from ..models.measurement import Measurement, MeasurementType
 
-from peripherals.Camera import Camera
-from peripherals.DHT22 import DHT22
-from peripherals.HC_SR04 import HC_SR04
+from ..peripherals.Camera import Camera
+from ..peripherals.DHT22 import DHT22
+from ..peripherals.HC_SR04 import HC_SR04
 
 class DataAquisition:
     
