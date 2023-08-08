@@ -5,10 +5,10 @@ import math
 
 
 class HC_SR04:
-    def __init__(self, triggerPin:int = 17, echoPin:int = 27):
+    def __init__(self, pi, triggerPin:int = 17, echoPin:int = 27):
         self.triggerPin = triggerPin
         self.echoPin = echoPin
-        self.pi = pigpio.pi()
+        self.pi = pi
         self.pi.set_mode(self.triggerPin, pigpio.OUTPUT)
         self.pi.set_mode(self.echoPin, pigpio.INPUT)
         
@@ -45,7 +45,7 @@ class HC_SR04:
         average = mean(measures)
         return math.floor(average)
     
-    def calculatePercentFilled(self, containerHeight) -> float:
+    def calculatePercentFilled(self, containerHeight: int) -> float:
         distanceToWaterSurface = self.tripplemeasureaverage()
         filledHeight = containerHeight - distanceToWaterSurface
         percent = (filledHeight / containerHeight) * 100
@@ -53,7 +53,7 @@ class HC_SR04:
         
 if __name__ == '__main__':
     try:
-        sensor = HC_SR04()
+        sensor = HC_SR04(pigpiodPi=pigpio.pi())
         while True:
             print(sensor.tripplemeasureaverage())
             print(sensor.calculatePercentFilled(40))

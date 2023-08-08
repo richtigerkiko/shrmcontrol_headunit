@@ -8,8 +8,8 @@ class MeasurementType(Enum):
     TEMPERATURE = "temperature"
     HUMIDITY = "humidity"
     CO2 = "co2"
-    WaterLevel = "water_level"
-    Picture = "picture"
+    WATERLEVEL = "water_level"
+    PICTURE = "picture"
 
 @dataclass
 class Measurement:
