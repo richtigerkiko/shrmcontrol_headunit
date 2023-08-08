@@ -52,3 +52,11 @@ class DataAquisition:
         returnStr = "Measurements:\n"
         for measurement in self.measurements:
             returnStr += f"{measurement.measurement_type}({measurement.value} {measurement.unit})\n"
+            
+
+# Run a test measurement
+if __name__ == '__main__':
+    aqqui = DataAquisition()
+    aqqui.run()
+    print(aqqui)
+    
