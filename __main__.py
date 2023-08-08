@@ -6,6 +6,7 @@
 
 # Send Image, Sensors and Alarms to API
 
+from api_service import API_Service
 from data_aquisition_service import DataAquisition
 
 
