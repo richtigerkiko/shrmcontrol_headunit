@@ -1,3 +1,4 @@
+import time
 import pigpio
 
 class Relais:
@@ -19,3 +20,17 @@ class Relais:
             self.pi.write(self.channel1, 0)
         elif channel == 2:
             self.pi.write(self.channel2, 0)
+
+
+if __name__ == "__main__":
+    pi = pigpio.pi()
+    relais = Relais(pi)
+    relais.on(1)
+    time.sleep(2)
+    relais.on(2)
+    time.sleep(2)
+    relais.off(1)
+    time.sleep(2)
+    relais.off(2)
+    time.sleep(1)
+    relais.on(2)
