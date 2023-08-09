@@ -34,7 +34,7 @@ class API_Service:
         requestObj: PostMeasurementObj = PostMeasurementObj(measurements)
         jsonData = json.dumps(requestObj, cls=API_Service.DateTimeEncoder)
         
-        self.session.post(f"{self.url}/Sensor/UploadData", json=jsonData)
+        requests.post(f"{self.url}/Sensor/UploadData", json=jsonData)
         pass
 
 
