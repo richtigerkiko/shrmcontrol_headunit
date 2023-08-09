@@ -13,7 +13,7 @@ from data_aquisition_service import DataAquisition
 def main():
     # Init stuff
     dataAquisition = DataAquisition()
-    apiService = API_Service("kibble", "http://localhost:5145/api") # kibble is the dev env auth key
+    apiService = API_Service("kibble") # kibble is the dev env auth key
     
     # Run
     dataAquisition.run()

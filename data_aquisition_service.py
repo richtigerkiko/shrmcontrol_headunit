@@ -28,7 +28,7 @@ class DataAquisition:
         # Every minute, take a picture
         if self.rememberedMinute != time.localtime().tm_min:
             self.imagePath = self.cam.takePicture()
-            self.measurements.append(Measurement(datetime.now(), MeasurementType.Picture, self.imagePath, "path"))
+            self.measurements.append(Measurement(datetime.now(), MeasurementType.PICTURE, self.imagePath, "path"))
             self.rememberedMinute = time.localtime().tm_min
         
         # Temperature and Humidity 
@@ -49,7 +49,7 @@ class DataAquisition:
         
         # Water Level
         level = self.hc_sr04.calculatePercentFilled(40)
-        self.measurements.append(Measurement(datetime.now(), MeasurementType.WaterLevel, level, "%"))
+        self.measurements.append(Measurement(datetime.now(), MeasurementType.WATERLEVEL, level, "%"))
         
     def __str__(self):
         returnStr = "Measurements:\n"
