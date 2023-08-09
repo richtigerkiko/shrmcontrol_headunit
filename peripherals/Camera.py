@@ -36,7 +36,8 @@ class Camera:
     
     
 if __name__ == "__main__":
-    cam = Camera("/home/alex/pics")
+    cam = Camera("./debugpics")
+    print(cam.cam.camera_controls)
     cam.takePicture()
     cam.takePictureToBase64()
     cam.cam.stop()
