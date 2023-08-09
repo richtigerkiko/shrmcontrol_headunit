@@ -21,9 +21,6 @@ class API_Service:
     
     def __init__(self, authKey: str, baseUrl:str = "http://192.168.183.142:5145/api") -> None:
         self.url = baseUrl
-        # self.headers = {'Content-Type': 'application/json', 'authorization': authKey}
-        # self.session = requests.Session()
-        # self.session.headers.update(self.headers)
         pass
     
     
@@ -32,16 +29,13 @@ class API_Service:
         
         if len(pictureList) > 0:
             picture = pictureList[0]
-            savedate = picture.timeStamp
             measurements.remove(picture)
             picturePath = self.sendPicture(picture.value)
-            measurements.append(Measurement(savedate, MeasurementType.PICTURE, picturePath, "path"))
-        
         requestObj: PostMeasurementObj = PostMeasurementObj(measurements)
         
         try:
             jsonData = json.dumps(requestObj.__dict__, cls=API_Service.JsonParser)
-            r = requests.post(f"{self.url}/Sensor/UploadData", json=jsonData)
+            r = requests.post(f"{self.url}/Sensor/UploadData", data=jsonData, headers={'Content-Type': 'application/json'})
         except Exception as err:
             print("errorlol")
         pass
