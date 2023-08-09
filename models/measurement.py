@@ -13,7 +13,7 @@ class MeasurementType(IntEnum):
 
 @dataclass
 class Measurement:
-    timestamp: datetime
-    measurement_type: MeasurementType
+    timeStamp: datetime
+    measurementType: MeasurementType
     value: float
     unit: str  # unitsysmbol like °C, %, ppm, ...

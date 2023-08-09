@@ -28,11 +28,11 @@ class API_Service:
     
     
     def sendMeasurements(self, measurements: list[Measurement]) -> None:
-        pictureList = list(filter(lambda x: x.measurement_type == MeasurementType.PICTURE, measurements))
+        pictureList = list(filter(lambda x: x.measurementType == MeasurementType.PICTURE, measurements))
         
         if len(pictureList) > 0:
             picture = pictureList[0]
-            savedate = picture.timestamp
+            savedate = picture.timeStamp
             measurements.remove(picture)
             picturePath = self.sendPicture(picture.value)
             measurements.append(Measurement(savedate, MeasurementType.PICTURE, picturePath, "path"))
