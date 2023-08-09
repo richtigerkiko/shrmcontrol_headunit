@@ -8,10 +8,16 @@ from models.request.PostMeasurementObj import PostMeasurementObj
 
 
 class API_Service:
-    class DateTimeEncoder(json.JSONEncoder):
+    class JsonParser(json.JSONEncoder):
         def default(self, obj):
             if isinstance(obj, (datetime.date, datetime.datetime)):
                 return obj.isoformat()
+            if isinstance(obj, MeasurementType):
+                return int(obj)
+            if isinstance(obj, Measurement):
+                return obj.__dict__
+            else: 
+                print(obj)
     
     def __init__(self, authKey: str, baseUrl:str = "http://192.168.183.142:5145/api") -> None:
         self.url = baseUrl
@@ -32,10 +38,14 @@ class API_Service:
             measurements.append(Measurement(savedate, MeasurementType.PICTURE, picturePath, "path"))
         
         requestObj: PostMeasurementObj = PostMeasurementObj(measurements)
-        jsonData = json.dumps(requestObj, cls=API_Service.DateTimeEncoder)
         
-        requests.post(f"{self.url}/Sensor/UploadData", json=jsonData)
+        try:
+            jsonData = json.dumps(requestObj.__dict__, cls=API_Service.JsonParser)
+            r = requests.post(f"{self.url}/Sensor/UploadData", json=jsonData)
+        except Exception as err:
+            print("errorlol")
         pass
+
 
 
     def sendPicture(self, imagePath: str) -> str:
@@ -45,3 +55,4 @@ class API_Service:
             return r.text
         except:
             print("AAA")
+

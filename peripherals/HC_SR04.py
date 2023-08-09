@@ -53,7 +53,7 @@ class HC_SR04:
         
 if __name__ == '__main__':
     try:
-        sensor = HC_SR04(pigpiodPi=pigpio.pi())
+        sensor = HC_SR04(pi=pigpio.pi())
         while True:
             print(sensor.tripplemeasureaverage())
             print(sensor.calculatePercentFilled(40))

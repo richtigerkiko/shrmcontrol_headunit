@@ -15,9 +15,9 @@ class DataAquisition:
     imagePath = ""
     rememberedMinute = -1
     
-    def __init__(self):
+    def __init__(self, nocam: bool):
         self.pigPio = pigpio.pi()
-        self.cam = Camera("/home/alex/pics")
+        if nocam == False: self.cam = Camera("/home/alex/pics")
         self.dht22 = DHT22(self.pigPio, 4)
         self.mhz19 = mh_z19
         self.hc_sr04: HC_SR04 = HC_SR04(self.pigPio)
@@ -26,7 +26,7 @@ class DataAquisition:
         # clear measurements
         self.measurements = []
         # Every minute, take a picture
-        if self.rememberedMinute != time.localtime().tm_min:
+        if self.rememberedMinute != time.localtime().tm_min & hasattr(self, 'cam') == True:
             self.imagePath = self.cam.takePicture()
             self.measurements.append(Measurement(datetime.now(), MeasurementType.PICTURE, self.imagePath, "path"))
             self.rememberedMinute = time.localtime().tm_min

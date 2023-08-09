@@ -12,7 +12,7 @@ from data_aquisition_service import DataAquisition
 
 def main():
     # Init stuff
-    dataAquisition = DataAquisition()
+    dataAquisition = DataAquisition(nocam=True)
     apiService = API_Service("kibble") # kibble is the dev env auth key
     
     # Run

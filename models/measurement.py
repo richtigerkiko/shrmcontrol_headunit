@@ -1,15 +1,15 @@
 
 from dataclasses import dataclass
 import datetime
-from enum import Enum
+from enum import IntEnum
 
 
-class MeasurementType(Enum):
-    TEMPERATURE = "temperature"
-    HUMIDITY = "humidity"
-    CO2 = "co2"
-    WATERLEVEL = "water_level"
-    PICTURE = "picture"
+class MeasurementType(IntEnum):
+    TEMPERATURE = 0
+    HUMIDITY = 1
+    CO2 = 2
+    WATERLEVEL = 3
+    PICTURE = 4
 
 @dataclass
 class Measurement:
