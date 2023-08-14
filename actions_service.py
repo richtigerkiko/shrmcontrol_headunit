@@ -18,8 +18,8 @@ class ActionService:
     isHumidifierStopping = False
     
     isTentFanOn = False
-    isTentFanStarting = False
-    isTentFanStopping = False
+    
+    isTentLightOn = False
     
     humidifierFanRelaisChannel = 1
     ledLightRelaisChannel = 2
@@ -73,22 +73,39 @@ class ActionService:
     def start_tentFan(self):
         logging.info("Starting Tentfan")
         self.rfSender.sendCode(self.tentfan_power_on_code)
+        self.isTentFanOn = True
         pass
     
     def stop_tentFan(self):
         logging.info("Stopping Tentfan")
         self.rfSender.sendCode(self.tentfan_power_of_code)
+        self.isTentFanOn = False
         pass
     
     def start_tentLight(self):
+        logging.info("Starting Tentlight")
+        self.relais.on(self.ledLightRelaisChannel)
+        self.isTentLightOn = True
         pass
     
     def stop_tentLight(self):
+        logging.info("Stopping Tentlight")
+        self.relais.off(self.ledLightRelaisChannel)
+        self.isTentLightOn = False
         pass
     
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
+    logging.debug("Testrun")
     actionService = ActionService(25, pigpio.pi())
+    actionService.start_tentLight()
     asyncio.run(actionService.start_humidifier())
     time.sleep(10)
     asyncio.run(actionService.stop_humidifier())
+    time.sleep(3)
+    actionService.start_tentFan()
+    time.sleep(3)
+    actionService.stop_tentFan()
+    time.sleep(3)
+    actionService.stop_tentLight()
+    
