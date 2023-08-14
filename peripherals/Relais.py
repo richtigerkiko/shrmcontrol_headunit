@@ -15,27 +15,16 @@ class Relais:
         self.pi.write(self.channelPins[channel - 1], 0)
         
     def toggle(self, channel:int):
-        currentState = bool(self.pi.read(self.channelPins[channel - 1]))
-        self.pi.write(self.channelPins[channel - 1], not currentState)
+        ison = self.isOn(channel)
+        self.pi.write(self.channelPins[channel - 1], not ison)
 
+    def isOn(self, channel:int) -> bool:
+        return bool(self.pi.read(self.channelPins[channel - 1]))
 
 if __name__ == "__main__":
     pi = pigpio.pi()
-    relais = Relais(pi, [23, 24])
-    relais.on(1)
-    time.sleep(2)
-    relais.on(2)
-    time.sleep(2)
-    relais.off(1)
-    time.sleep(2)
-    relais.off(2)
-    time.sleep(1)
-    relais.on(2)
-    time.sleep(1)
+    relaisPins = [23, 24]
+    relais = Relais(pi, relaisPins)
+    
     relais.toggle(2)
-    time.sleep(1)
-    relais.toggle(2)
-    time.sleep(1)
-    relais.toggle(2)
-    time.sleep(1)
-    relais.toggle(2)
+    time.sleep(5)
