@@ -55,7 +55,6 @@ if __name__ == '__main__':
     try:
         sensor = HC_SR04(pi=pigpio.pi())
         while True:
-            print(sensor.tripplemeasureaverage())
             print(sensor.calculatePercentFilled(40))
             time.sleep(1)
     except KeyboardInterrupt:

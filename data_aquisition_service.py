@@ -41,11 +41,11 @@ class DataAquisition:
         self.measurements.append(Measurement(datetime.now(), MeasurementType.HUMIDITY, humidity, "%"))
         
         # CO2
-        # try:
-        #     co2 = self.mhz19.read()["co2"]
-        # except:
-        #     co2 = -1
-        # self.measurements.append(Measurement(datetime.now(), MeasurementType.CO2, co2, "ppm"))
+        try:
+            co2 = self.mhz19.read()["co2"]
+        except:
+            co2 = -1
+        self.measurements.append(Measurement(datetime.now(), MeasurementType.CO2, co2, "ppm"))
         
         # Water Level
         level = self.hc_sr04.calculatePercentFilled(40)
