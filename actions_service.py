@@ -78,7 +78,7 @@ class ActionService:
     
     def stop_tentFan(self):
         logging.info("Stopping Tentfan")
-        self.rfSender.sendCode(self.tentfan_power_of_code)
+        self.rfSender.sendCode(self.tentfan_power_off_code)
         self.isTentFanOn = False
         pass
     
