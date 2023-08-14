@@ -7,11 +7,11 @@ from peripherals.Relais import Relais
 
 class ActionService:
     
-    fogger_power_on_code = 4457809
-    fogger_power_off_code = 4457812
+    fogger_power_on_code = 4460881
+    fogger_power_off_code = 4460884
     
-    tentfan_power_on_code = 4460881
-    tentfan_power_off_code = 4460884
+    tentfan_power_on_code = 4457809
+    tentfan_power_off_code = 4457812
     
     isHumidifierOn = False
     isHumidifierStarting = False
@@ -42,13 +42,13 @@ class ActionService:
         self.relais.on(self.humidifierFanRelaisChannel)
         
         # wait a minute for good airflow
-        await asyncio.sleep(60)
+        await asyncio.sleep(10)
         
-        logging.debug("Sending code to turn on fogger: " + self.fogger_power_on_code)
+        logging.debug(f"Sending code to turn on fogger: {self.fogger_power_on_code}")
         self.rfSender.sendCode(self.fogger_power_on_code)
 
         self.isHumidifierOn = True
-        self.isHumidifierStopping = False
+        self.isHumidifierStarting = False
         pass
     
     async def stop_humidifier(self):
@@ -58,11 +58,11 @@ class ActionService:
             return
         self.isHumidifierStopping = True
         
-        logging.debug("Sending code to turn of fogger: " + self.fogger_power_on_code)
-        self.rfSender.sendCode(self.fogger_power_on_code)
+        logging.debug(f"Sending code to turn of fogger: {self.fogger_power_on_code}" )
+        self.rfSender.sendCode(self.fogger_power_off_code)
         
         # wait a minute to exit humidity before turning of humidifer fan
-        await asyncio.sleep(60)
+        await asyncio.sleep(10)
         logging.debug("Stopping humidfier fan")
         self.relais.off(self.humidifierFanRelaisChannel)
         
@@ -71,9 +71,13 @@ class ActionService:
         pass
     
     def start_tentFan(self):
+        logging.info("Starting Tentfan")
+        self.rfSender.sendCode(self.tentfan_power_on_code)
         pass
     
     def stop_tentFan(self):
+        logging.info("Stopping Tentfan")
+        self.rfSender.sendCode(self.tentfan_power_of_code)
         pass
     
     def start_tentLight(self):
@@ -85,9 +89,6 @@ class ActionService:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
     actionService = ActionService(25, pigpio.pi())
-    print(actionService.__dict__)
     asyncio.run(actionService.start_humidifier())
-    print(actionService.__dict__)
-    time.sleep(5)
+    time.sleep(10)
     asyncio.run(actionService.stop_humidifier())
-    print(actionService.__dict__)
