@@ -35,7 +35,7 @@ class API_Service:
         
         try:
             jsonData = json.dumps(requestObj.__dict__, cls=API_Service.JsonParser)
-            r = requests.post(f"{self.url}/Sensor/UploadData", data=jsonData, headers={'Content-Type': 'application/json'})
+            r = requests.post(f"{self.url}/Sensor/UploadData", data=jsonData, headers={'Content-Type': 'application/json'}, timeout=5)
         except Exception as err:
             print("errorlol")
         pass
@@ -45,7 +45,7 @@ class API_Service:
     def sendPicture(self, imagePath: str) -> str:
         try:
             files = {'file': open(imagePath, 'rb')}
-            r = requests.post(f"{self.url}/Sensor/UploadImage", files=files)
+            r = requests.post(f"{self.url}/Sensor/UploadImage", files=files, timeout=5)
             return r.text
         except:
             print("AAA")

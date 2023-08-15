@@ -11,7 +11,7 @@ class DataProcesing:
         "humidity": {
             "lowerthreshold": 88,
             "upperthreshold": 95,
-            "lowercritical": 80,
+            "lowercritical": 80.0,
             "uppercritical": -1,
             "unit": "%"
         },
@@ -30,7 +30,7 @@ class DataProcesing:
             "unit": "%"
         }
     }
-    def __init__(self, measurements:list[Measurement], ruleset:dict | None):
+    def __init__(self, measurements:list[Measurement], ruleset:dict = None):
         self.measurements = measurements
         self.actionsService = ActionService(25, pigpio.pi())
         self.alarms: list[Alarm] = []
@@ -52,8 +52,8 @@ class DataProcesing:
             return
         ruleset = self.ruleset["humidity"]
         
-        if ruleset["lowercritical"] != -1 & ruleset["lowercritical"] > currentHumidity.value:
-            logging.CRITICAL("Humidity is critically low, starting humidifier and sending alarms")
+        if ((ruleset["lowercritical"] != -1) & (ruleset["lowercritical"] > currentHumidity.value)):
+            logging.critical("Humidity is critically low, starting humidifier and sending alarms")
             asyncio.run(self.actionsService.start_humidifier())
             self.alarms.append(Alarm(AlarmType.Critical, "Humidity is too low, starting humidifier"))
             
@@ -63,7 +63,7 @@ class DataProcesing:
             self.alarms.append(Alarm(AlarmType.Info, "Humidity is too low, starting humidifier"))
             
         elif ruleset["uppercritical"] != -1 & ruleset["uppercritical"] < currentHumidity.value:
-            logging.CRITICAL("Humidity is critically high, stopping humidifier and sending alarms")
+            logging.critical("Humidity is critically high, stopping humidifier and sending alarms")
             asyncio.run(self.actionsService.stop_humidifier())
             self.alarms.append(Alarm(AlarmType.Critical, "Humidity is too high, stopping humidifier"))
             
@@ -80,7 +80,7 @@ class DataProcesing:
         ruleset = self.ruleset["co2"]
         
         if ruleset["lowercritical"] != -1 & ruleset["lowercritical"] > currentCo2.value:
-            logging.CRITICAL("Co2 is critically low, this will never happen but just in case")
+            logging.critical("Co2 is critically low, this will never happen but just in case")
             self.alarms.append(Alarm(AlarmType.Critical, "Co2 is too low, it cant be to low lol"))
         
         elif ruleset["lowerthreshold"] != -1 & ruleset["lowerthreshold"] > currentCo2.value:
@@ -89,7 +89,7 @@ class DataProcesing:
             self.alarms.append(Alarm(AlarmType.Info, "Co2 is perfect, turning of Tentfan"))
         
         elif ruleset["uppercritical"] != -1 & ruleset["uppercritical"] < currentCo2.value:
-            logging.CRITICAL("Co2 is critically high, starting Tentfan and sending alarms")
+            logging.critical("Co2 is critically high, starting Tentfan and sending alarms")
             asyncio.run(self.actionsService.start_tentFan())
             self.alarms.append(Alarm(AlarmType.Critical, "Co2 is too high, starting Tentfan, if its not going down check the tent and the sensor"))
         

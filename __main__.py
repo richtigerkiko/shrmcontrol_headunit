@@ -16,7 +16,7 @@ from data_processing_service import DataProcesing
 def main():
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
     # Init stuff
-    dataAquisition = DataAquisition(nocam=False)
+    dataAquisition = DataAquisition(nocam=True)
     apiService = API_Service("kibble") # kibble is the dev env auth key
     
     logging.debug("starting main loop")
@@ -25,7 +25,8 @@ def main():
     while True:
         dataAquisition.run()
         dataprocessing = DataProcesing(dataAquisition.measurements)
-        apiService.sendMeasurements(dataAquisition.measurements)
+        dataprocessing.process()
+        # apiService.sendMeasurements(dataAquisition.measurements)
         time.sleep(5)
     
 if __name__ == '__main__':
