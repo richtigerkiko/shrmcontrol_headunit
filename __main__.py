@@ -17,10 +17,10 @@ from data_processing_service import DataProcesing
 def main():
     logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
     # Init stuff
-    pigpio = pigpio.pi()
+    pi = pigpio.pi()
     dataAquisition = DataAquisition(nocam=True)
     apiService = API_Service("kibble") # kibble is the dev env auth key
-    dataprocessing = DataProcesing(pigpio)
+    dataprocessing = DataProcesing(pi)
     
     
     logging.debug("starting main loop")

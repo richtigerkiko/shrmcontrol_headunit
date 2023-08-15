@@ -24,12 +24,15 @@ class ActionService:
     humidifierFanRelaisChannel = 1
     ledLightRelaisChannel = 2
     
-    def __init__(self, rfSenderpio:int, pigpio):
+    def __init__(self, rfSenderpio:int, pi):
         logging.info("Initialising Action Service")
 
         self.rfSender = RFSender(rfSenderpio, pulseLength=305, protocol=1)
-        self.relais = Relais(pigpio, [23, 24])
+        self.relais = Relais(pi, [23, 24])
         # On init, turn everything off
+        self.stop_humidifier()
+        self.stop_tentFan()
+        self.stop_tentLight()
         pass
     
     async def start_humidifier(self):
