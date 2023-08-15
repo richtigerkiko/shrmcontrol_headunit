@@ -30,15 +30,15 @@ class DataProcesing:
             "unit": "%"
         }
     }
-    def __init__(self, measurements:list[Measurement], ruleset:dict = None):
-        self.measurements = measurements
-        self.actionsService = ActionService(25, pigpio.pi())
+    def __init__(self, pigpio):
+        self.measurements = []
+        self.actionsService = ActionService(25, pigpio)
         self.alarms: list[Alarm] = []
         
         if ruleset != None:
             self.ruleset = ruleset
         
-    def process(self):
+    def process(self, measurements:list[Measurement], ruleset:dict = None):
         # run all process steps:
         logging.info("Starting data processing")
         self.process_humidity()

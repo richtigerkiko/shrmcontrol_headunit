@@ -34,41 +34,47 @@ class ActionService:
     
     async def start_humidifier(self):
         logging.info("Starting humidifier")
+        if self.isHumidifierOn:
+            logging.info("humidifier should already be running, resending plug code just in case")
+            self.rfSender.sendCode(self.fogger_power_on_code)
         if self.isHumidifierStopping:
             logging.warning("Humidifier is currently still stopping, not starting")
             return
-        self.isHumidifierStarting = True
-        logging.debug("Starting humidfier fan")
-        self.relais.on(self.humidifierFanRelaisChannel)
+        else:
+            self.isHumidifierStarting = True
+            logging.debug("Starting humidfier fan")
+            self.relais.on(self.humidifierFanRelaisChannel)
         
-        # wait a minute for good airflow
-        await asyncio.sleep(10)
-        
-        logging.debug(f"Sending code to turn on fogger: {self.fogger_power_on_code}")
-        self.rfSender.sendCode(self.fogger_power_on_code)
+            # wait a minute for good airflow
+            await asyncio.sleep(10)
+            
+            logging.debug(f"Sending code to turn on fogger: {self.fogger_power_on_code}")
+            self.rfSender.sendCode(self.fogger_power_on_code)
 
-        self.isHumidifierOn = True
-        self.isHumidifierStarting = False
-        pass
+            self.isHumidifierOn = True
+            self.isHumidifierStarting = False
     
     async def stop_humidifier(self):
         logging.info("Stopping humidifier")
         if self.isHumidifierStarting:
             logging.warning("Humidifier is currently still starting, not stopping")
             return
-        self.isHumidifierStopping = True
-        
-        logging.debug(f"Sending code to turn of fogger: {self.fogger_power_on_code}" )
-        self.rfSender.sendCode(self.fogger_power_off_code)
-        
-        # wait a minute to exit humidity before turning of humidifer fan
-        await asyncio.sleep(10)
-        logging.debug("Stopping humidfier fan")
-        self.relais.off(self.humidifierFanRelaisChannel)
-        
-        self.isHumidifierStopping = False
-        self.isHumidifierOn = False
-        pass
+        if self.isHumidifierOn == False:
+            logging.info("Humidifier should already be off, resending plug code just in case")
+            self.rfSender.sendCode(self.fogger_power_off_code)
+        else:
+            self.isHumidifierStopping = True
+            
+            logging.debug(f"Sending code to turn of fogger: {self.fogger_power_on_code}" )
+            self.rfSender.sendCode(self.fogger_power_off_code)
+            
+            # wait a minute to exit humidity before turning of humidifer fan
+            await asyncio.sleep(10)
+            logging.debug("Stopping humidfier fan")
+            self.relais.off(self.humidifierFanRelaisChannel)
+            
+            self.isHumidifierStopping = False
+            self.isHumidifierOn = False
     
     def start_tentFan(self):
         logging.info("Starting Tentfan")
