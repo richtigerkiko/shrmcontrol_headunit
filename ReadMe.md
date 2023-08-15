@@ -7,7 +7,7 @@
 
 ```
 apt update && apt upgrade
-apt-get install python3-pip pigpio libopenjp2-7
-pip install pigpio rpi-rf luma.core luma.oled mh_z19
+apt-get install python3-pip pigpio libopenjp2-7 i2c-tools
+pip install pigpio rpi-rf luma.core luma.oled mh_z19 htu21df
 ```
 

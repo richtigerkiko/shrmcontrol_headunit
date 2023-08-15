@@ -1,6 +1,7 @@
 import time
 import pigpio
 import mh_z19
+from htu21 import HTU21
 from datetime import datetime
 
 from models.measurement import Measurement, MeasurementType
@@ -21,6 +22,7 @@ class DataAquisition:
         self.dht22 = DHT22(self.pigPio, 4)
         self.mhz19 = mh_z19
         self.hc_sr04: HC_SR04 = HC_SR04(self.pigPio)
+        self.htu21d = HTU21()
     
     def run(self):
         # clear measurements

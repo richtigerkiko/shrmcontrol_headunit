@@ -36,7 +36,7 @@ def main():
         logging.info("Data Processing finished")
         
         # Send Data
-        # apiService.sendMeasurements(dataAquisition.measurements)
+        apiService.sendMeasurements(dataAquisition.measurements)
         time.sleep(5)
     
 if __name__ == '__main__':
