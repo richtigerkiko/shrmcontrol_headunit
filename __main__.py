@@ -14,6 +14,7 @@ from data_processing_service import DataProcesing
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
     # Init stuff
     dataAquisition = DataAquisition(nocam=False)
     apiService = API_Service("kibble") # kibble is the dev env auth key
