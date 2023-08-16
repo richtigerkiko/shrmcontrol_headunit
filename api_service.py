@@ -6,6 +6,7 @@ import requests
 
 from models.measurement import Measurement, MeasurementType
 from models.request.PostMeasurementObj import PostMeasurementObj
+from models.ruleset import RuleSet
 
 
 class API_Service:
@@ -36,6 +37,9 @@ class API_Service:
         
         try:
             jsonData = json.dumps(requestObj.__dict__, cls=API_Service.JsonParser)
+            # save to file
+            with open(f"./debug/{requestObj.timeStamp.isoformat()}.json", "w") as stream:
+                stream.write(jsonData)
             r = requests.post(f"{self.url}/Sensor/UploadData", data=jsonData, headers={'Content-Type': 'application/json'}, timeout=5)
         except Exception as err:
             print("errorlol")
@@ -50,4 +54,7 @@ class API_Service:
             return r.text
         except:
             print("AAA")
+            
+    def getConfiguration(self) -> RuleSet:
+        pass
 

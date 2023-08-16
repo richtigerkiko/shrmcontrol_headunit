@@ -30,7 +30,7 @@ def main():
         # get data
         dataAquisition.run()
         logging.info("Data Aquisition finished")
-        
+        logging.info(dataAquisition.measurements)
         # process data
         dataprocessing.process(dataAquisition.measurements)
         logging.info("Data Processing finished")
