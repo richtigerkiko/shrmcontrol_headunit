@@ -2,11 +2,12 @@
 import datetime
 import json
 import logging
+import socket
 import requests
 
 from models.measurement import Measurement, MeasurementType
 from models.request.PostMeasurementObj import PostMeasurementObj
-from models.ruleset import RuleSet
+from models.ruleset import FallbackRuleSet, RuleSet
 
 
 class API_Service:
@@ -56,5 +57,17 @@ class API_Service:
             print("AAA")
             
     def getConfiguration(self) -> RuleSet:
-        pass
+        try:
+            hostname = socket.gethostname()
+            r = requests.get(f"{self.url}/Rules/GetActiveRuleSet?hostname={hostname}")
+            if(r.status_code != 200):
+                logging.error(f"Error while fetching ruleset: {r.status_code}")
+                return FallbackRuleSet().ruleset
+            return RuleSet.from_json(r.text)
+        except Exception as err:
+            logging.error(err)
+            return FallbackRuleSet().ruleset
 
+if __name__ == "__main__":
+    api = API_Service("test", "https://shroomcontrol.warumhalbmast.de/api")
+    api.getConfiguration()

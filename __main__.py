@@ -31,8 +31,14 @@ def main():
         dataAquisition.run()
         logging.info("Data Aquisition finished")
         logging.info(dataAquisition.measurements)
+        
+        # Update running configuration
+        logging.info("Updating configuration")
+        ruleset = apiService.getConfiguration()
+        logging.debug("Got new configuration", ruleset)
+        
         # process data
-        dataprocessing.process(dataAquisition.measurements)
+        dataprocessing.process(dataAquisition.measurements, ruleset)
         logging.info("Data Processing finished")
         
         # Send Data
