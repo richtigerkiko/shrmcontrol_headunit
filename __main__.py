@@ -19,7 +19,7 @@ def main():
     # Init stuff
     pi = pigpio.pi()
     dataAquisition = DataAquisition(nocam=True)
-    apiService = API_Service("kibble") # kibble is the dev env auth key
+    apiService = API_Service("kibble", "https://shroomcontrol.warumhalbmast.de/api") # kibble is the dev env auth key
     dataprocessing = DataProcesing(pi)
     
     
@@ -29,7 +29,7 @@ def main():
     while True:
         # get data
         dataAquisition.run()
-        logging.info("Data Aquisition finished", dataAquisition.measurements)
+        logging.info("Data Aquisition finished")
         
         # process data
         dataprocessing.process(dataAquisition.measurements)

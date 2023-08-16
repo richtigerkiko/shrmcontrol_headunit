@@ -36,7 +36,6 @@ class API_Service:
         
         try:
             jsonData = json.dumps(requestObj.__dict__, cls=API_Service.JsonParser)
-            logging.info("sending measurement data to server", jsonData)
             r = requests.post(f"{self.url}/Sensor/UploadData", data=jsonData, headers={'Content-Type': 'application/json'}, timeout=5)
         except Exception as err:
             print("errorlol")

@@ -34,10 +34,8 @@ class DataAquisition:
             self.rememberedMinute = time.localtime().tm_min
         
         # Temperature and Humidity 
-        self.dht22.trigger()
-        time.sleep(0.1)
-        temp = self.dht22.temperature()
-        humidity = self.dht22.humidity()
+        temp = self.htu21d.read_temperature()
+        humidity = self.htu21d.read_humidity()
         
         self.measurements.append(Measurement(datetime.now(), MeasurementType.TEMPERATURE, temp, "°C"))
         self.measurements.append(Measurement(datetime.now(), MeasurementType.HUMIDITY, humidity, "%"))
@@ -56,12 +54,12 @@ class DataAquisition:
     def __str__(self):
         returnStr = "Measurements:\n"
         for measurement in self.measurements:
-            returnStr += f"{measurement.measurement_type}({measurement.value} {measurement.unit})\n"
+            returnStr += f"{measurement.measurementType}({measurement.value} {measurement.unit})\n"
         return returnStr
 
 # Run a test measurement
 if __name__ == '__main__':
-    aqqui = DataAquisition()
+    aqqui = DataAquisition(nocam=True)
     while True:
         time.sleep(1)
         aqqui.run()

@@ -65,6 +65,8 @@ class ActionService:
         if self.isHumidifierOn == False:
             logging.info("Humidifier should already be off, resending plug code just in case")
             self.rfSender.sendCode(self.fogger_power_off_code)
+            time.sleep(0.1)
+            self.rfSender.sendCode(self.fogger_power_off_code)
         else:
             self.isHumidifierStopping = True
             

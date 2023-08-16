@@ -17,7 +17,7 @@ class DataProcesing:
         },
         "co2": {
             "lowerthreshold": 450,
-            "upperthreshold": 600,
+            "upperthreshold": 550,
             "lowercritical": -1,
             "uppercritical": 800,
             "unit": "ppm"
