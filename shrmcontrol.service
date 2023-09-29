@@ -1,0 +1,13 @@
+[Unit]
+Description=shrmcontrol service
+After=pigpiod.service
+
+[Service]
+WorkingDirectory=/usr/local/raspi/shrmcontrol_headunit
+ExecStart=/bin/python .
+
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target
